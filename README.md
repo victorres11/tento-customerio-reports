@@ -1,68 +1,91 @@
-# Customer.io Weekly Reporting Script
+# Customer.io Weekly Reporting
 
-This script generates a weekly report of Customer.io campaigns, showing email and SMS send counts for the most recent week.
+Automated weekly reporting for Customer.io campaigns, delivered to Slack via GitHub Actions.
 
-## Setup
+## Overview
 
-1. Create a virtual environment (if not already created):
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
+This repository contains a Python script that generates weekly reports of Customer.io campaign activity, including email and SMS send counts. The report is automatically generated every Wednesday at 9:15 AM UTC and delivered to a Slack channel via GitHub Actions.
 
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+## Features
 
-3. (Optional) Set your Customer.io API key as an environment variable:
-   ```bash
-   export CUSTOMER_IO_API_KEY="your-api-key-here"
-   ```
-   If not set, the script will use the default API key from the instructions.
+- 📊 Weekly campaign activity reports
+- 📧 Email and SMS send tracking
+- 💬 Automated Slack delivery
+- ⚡ Fast execution (single API call per campaign)
+- 🔒 Secure (API keys stored as GitHub secrets)
 
-## Usage
+## Repository Structure
 
-Run the script:
-```bash
-source venv/bin/activate
-python weekly_report.py
-```
-
-## Output Format
-
-The script generates a report in the following format:
-
-```
-Week of {date} customer.io reporting
-Campaign 1 Name
-Email 1 Name - 25 sent
-Email 2 Name - 15 sent
-SMS 1 Name - 15 sent
-
-Campaign 2 Name
-Email 1 Name - 10 sent
-SMS 1 Name - 4 sent
-
-Campaigns with no data:
-Campaign 1 name
-campaign 2 name
-```
+- `weekly_report.py` - Main Python script that generates the report
+- `.github/workflows/weekly-report.yml` - GitHub Actions workflow configuration
+- `requirements.txt` - Python dependencies
+- `SETUP.md` - Setup instructions for GitHub secrets
 
 ## How It Works
 
-1. Fetches all campaigns from Customer.io
-2. For each campaign, fetches all actions (emails and SMS)
-3. For each email/SMS action, fetches metrics for the most recent week
-4. Groups campaigns by whether they have send data
-5. Formats and displays the report
+1. **GitHub Actions** triggers the workflow every Wednesday at 9:15 AM UTC
+2. **Python Script** fetches all campaigns and their actions from Customer.io API
+3. **Metrics Collection** retrieves send counts for the most recent week
+4. **Formatting** creates a nicely formatted report using Slack Block Kit
+5. **Delivery** sends the report to your configured Slack channel
 
-## Notes
+## Setup
 
-- Only campaigns with email or SMS actions that have sent data in the most recent week are shown in the main section
-- Campaigns with no email/SMS actions or no send data are grouped separately
-- The script uses the Customer.io API endpoints:
-  - `/v1/campaigns` - Get all campaigns
-  - `/v1/campaigns/{id}/actions` - Get actions for a campaign
-  - `/v1/campaigns/{campaign_id}/actions/{action_id}/metrics` - Get metrics for an action
+See [SETUP.md](SETUP.md) for detailed setup instructions, including:
+- Creating a Slack webhook
+- Configuring GitHub secrets
+- Testing the workflow
 
+## Local Development
+
+To run the script locally:
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Set API key
+export CUSTOMER_IO_API_KEY="your-api-key"
+
+# Run the script
+python weekly_report.py
+
+# Or generate JSON output
+python weekly_report.py --json
+```
+
+## Report Format
+
+The report includes:
+- **Campaigns with Activity**: Shows campaigns with email/SMS sends, including:
+  - Campaign name
+  - Total sent count (emails + SMS)
+  - Individual email actions with send counts
+  - Individual SMS actions with send counts
+- **Campaigns with No Activity**: Lists campaigns with no sends in the reporting period
+
+## Schedule
+
+- **Frequency**: Weekly
+- **Day**: Wednesday
+- **Time**: 9:15 AM UTC
+- **Manual Trigger**: Available via GitHub Actions UI
+
+To change the schedule, edit `.github/workflows/weekly-report.yml` and modify the cron expression.
+
+## API Endpoints Used
+
+- `GET /v1/campaigns` - Fetch all campaigns
+- `GET /v1/campaigns/{id}/actions?limit=1000` - Fetch all actions for a campaign
+- `GET /v1/campaigns/{campaign_id}/actions/{action_id}/metrics` - Get metrics for an action
+
+## Requirements
+
+- Python 3.11+
+- `requests` library
+- Customer.io API key
+- Slack webhook URL
+
+## License
+
+This project is for internal use.
