@@ -37,55 +37,176 @@ jobs:
           python3 << 'EOF'
           import json
           import sys
+          from datetime import datetime
           
           try:
               with open('report.json', 'r') as f:
                   data = json.load(f)
               
-              report = f"Week of {data['week_start']} customer.io reporting\n\n"
+              # Create Slack Block Kit format
+              blocks = []
+              
+              # Header block
+              week_start = data['week_start']
+              blocks.append({
+                  "type": "header",
+                  "text": {
+                      "type": "plain_text",
+                      "text": f"📊 Customer.io Weekly Report"
+                  }
+              })
+              
+              # Week info
+              blocks.append({
+                  "type": "section",
+                  "text": {
+                      "type": "mrkdwn",
+                      "text": f"*Week of {week_start}*\nGenerated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}"
+                  }
+              })
+              
+              blocks.append({"type": "divider"})
               
               # Campaigns with data
-              for campaign in sorted(data['campaigns_with_data'].keys()):
-                  report += f"{campaign}\n"
-                  for email in data['campaigns_with_data'][campaign]['emails']:
-                      report += f"Email {email['name']} - {email['sent']} sent\n"
-                  for sms in data['campaigns_with_data'][campaign]['sms']:
-                      report += f"SMS {sms['name']} - {sms['sent']} sent\n"
-                  report += "\n"
+              campaigns_with_data = data['campaigns_with_data']
+              if campaigns_with_data:
+                  blocks.append({
+                      "type": "section",
+                      "text": {
+                          "type": "mrkdwn",
+                          "text": "*✨ Campaigns with Activity*"
+                      }
+                  })
+                  
+                  for campaign_name in sorted(campaigns_with_data.keys()):
+                      campaign_data = campaigns_with_data[campaign_name]
+                      emails = campaign_data.get('emails', [])
+                      sms = campaign_data.get('sms', [])
+                      
+                      # Calculate totals
+                      email_total = sum(e['sent'] for e in emails)
+                      sms_total = sum(s['sent'] for s in sms)
+                      total_sent = email_total + sms_total
+                      
+                      # Campaign header
+                      blocks.append({
+                          "type": "section",
+                          "text": {
+                              "type": "mrkdwn",
+                              "text": f"*{campaign_name}*\n*Total Sent: {total_sent}* (📧 {email_total} emails, 💬 {sms_total} SMS)"
+                          }
+                      })
+                      
+                      # Email details
+                      if emails:
+                          email_text = "\n".join([f"  • 📧 {e['name']}: *{e['sent']}* sent" for e in emails])
+                          blocks.append({
+                              "type": "section",
+                              "text": {
+                                  "type": "mrkdwn",
+                                  "text": email_text
+                              },
+                              "indent": 1
+                          })
+                      
+                      # SMS details
+                      if sms:
+                          sms_text = "\n".join([f"  • 💬 {s['name']}: *{s['sent']}* sent" for s in sms])
+                          blocks.append({
+                              "type": "section",
+                              "text": {
+                                  "type": "mrkdwn",
+                                  "text": sms_text
+                              },
+                              "indent": 1
+                          })
+                      
+                      blocks.append({"type": "divider"})
               
               # Campaigns with no data
-              if data['campaigns_without_data']:
-                  report += "Campaigns with no data:\n"
-                  for campaign in sorted(data['campaigns_without_data']):
-                      report += f"{campaign}\n"
+              campaigns_without_data = data.get('campaigns_without_data', [])
+              if campaigns_without_data:
+                  blocks.append({
+                      "type": "section",
+                      "text": {
+                          "type": "mrkdwn",
+                          "text": f"*⚠️ Campaigns with No Activity ({len(campaigns_without_data)})*"
+                      }
+                  })
+                  
+                  # Group into chunks of 10 for readability
+                  for i in range(0, len(campaigns_without_data), 10):
+                      chunk = sorted(campaigns_without_data)[i:i+10]
+                      campaign_list = "\n".join([f"  • {c}" for c in chunk])
+                      blocks.append({
+                          "type": "section",
+                          "text": {
+                              "type": "mrkdwn",
+                              "text": campaign_list
+                          }
+                      })
+              
+              # Summary footer
+              total_campaigns = len(campaigns_with_data) + len(campaigns_without_data)
+              blocks.append({"type": "divider"})
+              blocks.append({
+                  "type": "context",
+                  "elements": [{
+                      "type": "mrkdwn",
+                      "text": f"📈 Total campaigns: {total_campaigns} | Active: {len(campaigns_with_data)} | Inactive: {len(campaigns_without_data)}"
+                  }]
+              })
+              
+              # Save formatted JSON for Slack
+              slack_payload = {
+                  "blocks": blocks
+              }
+              
+              with open('slack_payload.json', 'w') as f:
+                  json.dump(slack_payload, f, indent=2)
+              
+              # Also save text version for fallback
+              report_text = f"Week of {week_start} customer.io reporting\n\n"
+              for campaign in sorted(campaigns_with_data.keys()):
+                  report_text += f"{campaign}\n"
+                  for email in campaigns_with_data[campaign]['emails']:
+                      report_text += f"Email {email['name']} - {email['sent']} sent\n"
+                  for sms in campaigns_with_data[campaign]['sms']:
+                      report_text += f"SMS {sms['name']} - {sms['sent']} sent\n"
+                  report_text += "\n"
+              if campaigns_without_data:
+                  report_text += "Campaigns with no data:\n"
+                  for campaign in sorted(campaigns_without_data):
+                      report_text += f"{campaign}\n"
               
               with open('formatted_report.txt', 'w') as f:
-                  f.write(report)
+                  f.write(report_text)
               
-              # Also output for GitHub Actions
-              print(f"::set-output name=report::{report}")
           except Exception as e:
               print(f"Error formatting report: {e}", file=sys.stderr)
+              import traceback
+              traceback.print_exc()
               # Fallback: use the text report
               import shutil
               shutil.copy('report.txt', 'formatted_report.txt')
-              with open('formatted_report.txt', 'r') as f:
-                  report = f.read()
-              print(f"::set-output name=report::{report}")
           EOF
       
       - name: Send to Slack
         if: always()
         run: |
-          REPORT=$(cat formatted_report.txt)
-          
-          # Escape the report for JSON
-          REPORT_JSON=$(echo "$REPORT" | python3 -c "import sys, json; print(json.dumps(sys.stdin.read()))")
-          
-          # Send to Slack webhook
-          curl -X POST -H 'Content-type: application/json' \
-            --data "{\"text\":\"📊 *Customer.io Weekly Report*\n\`\`\`\n$REPORT\n\`\`\`\"}" \
-            ${{ secrets.SLACK_WEBHOOK_URL }}
+          # Try to send formatted blocks, fallback to text if that fails
+          if [ -f slack_payload.json ]; then
+            curl -X POST -H 'Content-type: application/json' \
+              --data @slack_payload.json \
+              ${{ secrets.SLACK_WEBHOOK_URL }}
+          else
+            # Fallback to simple text message
+            REPORT=$(cat formatted_report.txt)
+            REPORT_JSON=$(echo "$REPORT" | python3 -c "import sys, json; print(json.dumps(sys.stdin.read()))")
+            curl -X POST -H 'Content-type: application/json' \
+              --data "{\"text\":\"📊 *Customer.io Weekly Report*\n\`\`\`\n$REPORT\n\`\`\`\"}" \
+              ${{ secrets.SLACK_WEBHOOK_URL }}
+          fi
       
       - name: Create GitHub Issue (Fallback if Slack fails)
         if: failure()
