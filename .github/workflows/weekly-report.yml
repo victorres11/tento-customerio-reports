@@ -28,7 +28,33 @@ jobs:
         env:
           CUSTOMER_IO_API_KEY: ${{ secrets.CUSTOMER_IO_API_KEY }}
         run: |
-          python weekly_report.py --json > report.json
+          # Generate JSON output (redirect to file but also show progress)
+          python weekly_report.py --json 2>&1 | tee report.json.tmp
+          # Move temp file to final location (filter out progress messages)
+          python3 << 'EOF'
+          import json
+          import sys
+          with open('report.json.tmp', 'r') as f:
+              content = f.read()
+          # Try to find JSON in the output (might have progress messages before it)
+          try:
+              # Find the JSON object in the output
+              start = content.find('{')
+              if start != -1:
+                  json_str = content[start:]
+                  data = json.loads(json_str)
+                  with open('report.json', 'w') as out:
+                      json.dump(data, out, indent=2)
+              else:
+                  # No JSON found, might be an error
+                  print("Error: No JSON found in output", file=sys.stderr)
+                  sys.exit(1)
+          except Exception as e:
+              print(f"Error parsing JSON: {e}", file=sys.stderr)
+              sys.exit(1)
+          EOF
+          
+          # Generate text output (show progress in logs)
           python weekly_report.py > report.txt 2>&1
       
       - name: Format report for Slack
