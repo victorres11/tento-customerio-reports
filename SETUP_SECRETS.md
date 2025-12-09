@@ -1,6 +1,6 @@
 # Setting Up GitHub Secrets
 
-Your repository is created! Now you need to set up the secrets for email delivery.
+Your repository is created! Now you need to set up the secret for Slack delivery.
 
 ## Repository URL
 https://github.com/victorres11/tento-customerio-reports
@@ -10,51 +10,39 @@ https://github.com/victorres11/tento-customerio-reports
 
 ## Secrets You Need to Set
 
-### Option 1: Using GitHub CLI (Recommended)
+### Step 1: Create a Slack Webhook
+
+1. Go to https://api.slack.com/apps
+2. Click "Create New App" → "From scratch"
+3. Name it "Customer.io Reports" and select your workspace
+4. Go to "Incoming Webhooks" in the left sidebar
+5. Toggle "Activate Incoming Webhooks" to ON
+6. Click "Add New Webhook to Workspace"
+7. Select the channel where you want reports sent
+8. Copy the Webhook URL (it will be a long URL starting with `https://hooks.slack.com/services/...`)
+
+### Step 2: Add Slack Webhook to GitHub Secrets
+
+#### Option A: Using GitHub CLI (Recommended)
 
 ```bash
-# Set your email address
-gh secret set REPORT_EMAIL_TO --repo victorres11/tento-customerio-reports
-# When prompted, enter your email address
-
-# Set SendGrid API key (if you have one)
-gh secret set SENDGRID_API_KEY --repo victorres11/tento-customerio-reports
-# When prompted, enter your SendGrid API key
+# Set your Slack webhook URL
+echo "YOUR_WEBHOOK_URL_HERE" | gh secret set SLACK_WEBHOOK_URL --repo victorres11/tento-customerio-reports
 ```
 
-### Option 2: Using GitHub Web UI
+Replace `YOUR_WEBHOOK_URL_HERE` with the webhook URL you copied from Slack.
+
+#### Option B: Using GitHub Web UI
 
 1. Go to: https://github.com/victorres11/tento-customerio-reports/settings/secrets/actions
 2. Click "New repository secret"
-3. Add these secrets:
+3. Add this secret:
+   - **Name**: `SLACK_WEBHOOK_URL`
+   - **Value**: Your Slack webhook URL (from Step 1)
 
-   **REPORT_EMAIL_TO**
-   - Name: `REPORT_EMAIL_TO`
-   - Value: Your email address (e.g., `your-email@example.com`)
+## That's It!
 
-   **SENDGRID_API_KEY** (if using SendGrid)
-   - Name: `SENDGRID_API_KEY`
-   - Value: Your SendGrid API key
-
-## Email Service Options
-
-### Option A: SendGrid (Recommended - Free tier available)
-1. Sign up at https://sendgrid.com
-2. Create an API key in Settings → API Keys
-3. Add the API key as `SENDGRID_API_KEY` secret
-
-### Option B: Gmail (Alternative)
-If you prefer Gmail, you'll need to:
-1. Enable 2-factor authentication on your Google account
-2. Generate an App Password: https://myaccount.google.com/apppasswords
-3. Update the workflow file to use Gmail settings (see below)
-
-To use Gmail instead, modify `.github/workflows/weekly-report.yml`:
-- Replace the SendGrid step with the Gmail configuration
-- Add secrets: `GMAIL_USERNAME` and `GMAIL_APP_PASSWORD`
-
-### Option C: No Email (Use GitHub Issues)
-If you don't want to set up email, the workflow will create a GitHub Issue if email fails.
+Once you've set the `SLACK_WEBHOOK_URL` secret, the workflow will automatically send reports to your Slack channel every Monday at 9 AM UTC.
 
 ## Test the Workflow
 
@@ -63,7 +51,7 @@ Once secrets are set:
 1. Go to: https://github.com/victorres11/tento-customerio-reports/actions
 2. Click on "Customer.io Weekly Report" workflow
 3. Click "Run workflow" → "Run workflow" (manual trigger)
-4. Watch it run and check your email!
+4. Watch it run and check your Slack channel!
 
 ## Schedule
 
