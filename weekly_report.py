@@ -35,13 +35,20 @@ def get_campaign_actions(campaign_id):
     """Fetch all actions for a specific campaign (handles pagination)"""
     url = f"{BASE_URL}/campaigns/{campaign_id}/actions"
     all_actions = []
+    seen_action_ids = set()  # Track which action IDs we've seen
     next_cursor = None
     page_num = 1
     max_pages = 50  # Safety limit to prevent infinite loops
+    seen_cursors = set()  # Track cursors to detect loops
     
     while page_num <= max_pages:
         # Add pagination parameter if we have a cursor
         if next_cursor:
+            # Check if we've seen this cursor before (infinite loop detection)
+            if next_cursor in seen_cursors:
+                print(f"      Warning: Detected cursor loop, stopping pagination")
+                break
+            seen_cursors.add(next_cursor)
             current_url = f"{url}?next={next_cursor}"
         else:
             current_url = url
@@ -50,16 +57,23 @@ def get_campaign_actions(campaign_id):
         response.raise_for_status()
         data = response.json()
         
-        # Add actions from this page
+        # Add actions from this page (deduplicate by ID)
         actions = data.get("actions", [])
-        all_actions.extend(actions)
-        print(f"      Fetched page {page_num}: {len(actions)} actions (total: {len(all_actions)})")
+        new_actions = []
+        for action in actions:
+            action_id = str(action.get("id"))
+            if action_id not in seen_action_ids:
+                seen_action_ids.add(action_id)
+                new_actions.append(action)
+        
+        all_actions.extend(new_actions)
+        print(f"      Fetched page {page_num}: {len(actions)} actions ({len(new_actions)} new, {len(all_actions)} total unique)")
         
         # Check if there's a next page
         next_cursor = data.get("next")
         
-        # Break if no more pages OR if we got no actions (empty page)
-        if not next_cursor or len(actions) == 0:
+        # Break if no more pages OR if we got no new actions (duplicate page)
+        if not next_cursor or len(new_actions) == 0:
             break
             
         page_num += 1
