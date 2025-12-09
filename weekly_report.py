@@ -32,11 +32,32 @@ def get_all_campaigns():
 
 
 def get_campaign_actions(campaign_id):
-    """Fetch all actions for a specific campaign"""
+    """Fetch all actions for a specific campaign (handles pagination)"""
     url = f"{BASE_URL}/campaigns/{campaign_id}/actions"
-    response = requests.get(url, headers=HEADERS)
-    response.raise_for_status()
-    return response.json().get("actions", [])
+    all_actions = []
+    next_cursor = None
+    
+    while True:
+        # Add pagination parameter if we have a cursor
+        if next_cursor:
+            current_url = f"{url}?next={next_cursor}"
+        else:
+            current_url = url
+        
+        response = requests.get(current_url, headers=HEADERS)
+        response.raise_for_status()
+        data = response.json()
+        
+        # Add actions from this page
+        actions = data.get("actions", [])
+        all_actions.extend(actions)
+        
+        # Check if there's a next page
+        next_cursor = data.get("next")
+        if not next_cursor:
+            break
+    
+    return all_actions
 
 
 def get_action_metrics(campaign_id, action_id, action_type):
