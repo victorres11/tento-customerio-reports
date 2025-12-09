@@ -25,7 +25,7 @@ Build the entire workflow using HTTP Request nodes (see `n8n_pure_workflow_examp
 ### Step 1: Set Environment Variables in n8n
 
 Go to n8n Settings → Environment Variables:
-- `CUSTOMER_IO_API_KEY`: Your API key (e.g., `194f1b1797e06160d1e1c42fa8ee4da3`)
+- `CUSTOMER_IO_API_KEY`: Your API key (get this from Customer.io settings)
 - `REPORT_EMAIL_TO`: Email address for reports
 
 ### Step 2: Create Workflow
@@ -52,7 +52,9 @@ from datetime import datetime
 from collections import defaultdict
 
 # Get API key from environment
-api_key = os.getenv('CUSTOMER_IO_API_KEY', '194f1b1797e06160d1e1c42fa8ee4da3')
+api_key = os.getenv('CUSTOMER_IO_API_KEY')
+if not api_key:
+    raise ValueError("CUSTOMER_IO_API_KEY environment variable is required")
 base_url = "https://api.customer.io/v1"
 headers = {
     "Authorization": f"Bearer {api_key}",

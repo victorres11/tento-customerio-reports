@@ -11,8 +11,11 @@ import sys
 from datetime import datetime
 from collections import defaultdict
 
-# Get API key from environment variable or use default
-API_KEY = os.getenv("CUSTOMER_IO_API_KEY", "194f1b1797e06160d1e1c42fa8ee4da3")
+# Get API key from environment variable (required)
+API_KEY = os.getenv("CUSTOMER_IO_API_KEY")
+if not API_KEY:
+    print("Error: CUSTOMER_IO_API_KEY environment variable is required", file=sys.stderr)
+    sys.exit(1)
 BASE_URL = "https://api.customer.io/v1"
 HEADERS = {
     "Authorization": f"Bearer {API_KEY}",
