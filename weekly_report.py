@@ -36,6 +36,7 @@ def get_campaign_actions(campaign_id):
     url = f"{BASE_URL}/campaigns/{campaign_id}/actions"
     all_actions = []
     next_cursor = None
+    page_num = 1
     
     while True:
         # Add pagination parameter if we have a cursor
@@ -51,11 +52,13 @@ def get_campaign_actions(campaign_id):
         # Add actions from this page
         actions = data.get("actions", [])
         all_actions.extend(actions)
+        print(f"      Fetched page {page_num}: {len(actions)} actions (total: {len(all_actions)})")
         
         # Check if there's a next page
         next_cursor = data.get("next")
         if not next_cursor:
             break
+        page_num += 1
     
     return all_actions
 
