@@ -37,8 +37,9 @@ def get_campaign_actions(campaign_id):
     all_actions = []
     next_cursor = None
     page_num = 1
+    max_pages = 50  # Safety limit to prevent infinite loops
     
-    while True:
+    while page_num <= max_pages:
         # Add pagination parameter if we have a cursor
         if next_cursor:
             current_url = f"{url}?next={next_cursor}"
@@ -56,9 +57,15 @@ def get_campaign_actions(campaign_id):
         
         # Check if there's a next page
         next_cursor = data.get("next")
-        if not next_cursor:
+        
+        # Break if no more pages OR if we got no actions (empty page)
+        if not next_cursor or len(actions) == 0:
             break
+            
         page_num += 1
+    
+    if page_num > max_pages:
+        print(f"      Warning: Hit max pages limit ({max_pages}), stopping pagination")
     
     return all_actions
 
