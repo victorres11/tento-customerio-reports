@@ -32,56 +32,22 @@ def get_all_campaigns():
 
 
 def get_campaign_actions(campaign_id):
-    """Fetch all actions for a specific campaign (handles pagination)"""
+    """Fetch all actions for a specific campaign"""
     url = f"{BASE_URL}/campaigns/{campaign_id}/actions"
-    all_actions = []
-    seen_action_ids = set()  # Track which action IDs we've seen
-    next_cursor = None
-    page_num = 1
-    max_pages = 50  # Safety limit to prevent infinite loops
-    seen_cursors = set()  # Track cursors to detect loops
+    # Use limit parameter to get all actions at once (up to 1000, which should be more than enough)
+    params = {"limit": 1000}
     
-    while page_num <= max_pages:
-        # Add pagination parameter if we have a cursor
-        if next_cursor:
-            # Check if we've seen this cursor before (infinite loop detection)
-            if next_cursor in seen_cursors:
-                print(f"      Warning: Detected cursor loop, stopping pagination")
-                break
-            seen_cursors.add(next_cursor)
-            current_url = f"{url}?next={next_cursor}"
-        else:
-            current_url = url
-        
-        response = requests.get(current_url, headers=HEADERS)
-        response.raise_for_status()
-        data = response.json()
-        
-        # Add actions from this page (deduplicate by ID)
-        actions = data.get("actions", [])
-        new_actions = []
-        for action in actions:
-            action_id = str(action.get("id"))
-            if action_id not in seen_action_ids:
-                seen_action_ids.add(action_id)
-                new_actions.append(action)
-        
-        all_actions.extend(new_actions)
-        print(f"      Fetched page {page_num}: {len(actions)} actions ({len(new_actions)} new, {len(all_actions)} total unique)")
-        
-        # Check if there's a next page
-        next_cursor = data.get("next")
-        
-        # Break if no more pages OR if we got no new actions (duplicate page)
-        if not next_cursor or len(new_actions) == 0:
-            break
-            
-        page_num += 1
+    response = requests.get(url, headers=HEADERS, params=params)
+    response.raise_for_status()
+    data = response.json()
     
-    if page_num > max_pages:
-        print(f"      Warning: Hit max pages limit ({max_pages}), stopping pagination")
+    actions = data.get("actions", [])
     
-    return all_actions
+    # If there's still a next cursor, it means there are more than 1000 actions (unlikely but handle it)
+    if data.get("next") and len(actions) >= 1000:
+        print(f"      Warning: Campaign has more than 1000 actions, only fetching first 1000")
+    
+    return actions
 
 
 def get_action_metrics(campaign_id, action_id, action_type):
