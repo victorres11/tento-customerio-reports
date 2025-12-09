@@ -1,0 +1,106 @@
+name: Customer.io Weekly Report
+
+on:
+  schedule:
+    # Runs every Monday at 9:00 AM UTC (adjust timezone as needed)
+    # Format: minute hour day month day-of-week
+    - cron: '0 9 * * 1'
+  workflow_dispatch:  # Allows manual trigger from GitHub UI
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install requests
+      
+      - name: Generate report
+        env:
+          CUSTOMER_IO_API_KEY: ${{ secrets.CUSTOMER_IO_API_KEY }}
+        run: |
+          python weekly_report.py --json > report.json
+          python weekly_report.py > report.txt 2>&1
+      
+      - name: Format report for email
+        run: |
+          python3 << 'EOF'
+          import json
+          import sys
+          
+          try:
+              with open('report.json', 'r') as f:
+                  data = json.load(f)
+              
+              report = f"Week of {data['week_start']} customer.io reporting\n\n"
+              
+              # Campaigns with data
+              for campaign in sorted(data['campaigns_with_data'].keys()):
+                  report += f"{campaign}\n"
+                  for email in data['campaigns_with_data'][campaign]['emails']:
+                      report += f"Email {email['name']} - {email['sent']} sent\n"
+                  for sms in data['campaigns_with_data'][campaign]['sms']:
+                      report += f"SMS {sms['name']} - {sms['sent']} sent\n"
+                  report += "\n"
+              
+              # Campaigns with no data
+              if data['campaigns_without_data']:
+                  report += "Campaigns with no data:\n"
+                  for campaign in sorted(data['campaigns_without_data']):
+                      report += f"{campaign}\n"
+              
+              with open('formatted_report.txt', 'w') as f:
+                  f.write(report)
+          except Exception as e:
+              print(f"Error formatting report: {e}", file=sys.stderr)
+              # Fallback: use the text report
+              import shutil
+              shutil.copy('report.txt', 'formatted_report.txt')
+          EOF
+      
+      - name: Send email via SendGrid
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.sendgrid.net
+          server_port: 465
+          username: apikey
+          password: ${{ secrets.SENDGRID_API_KEY }}
+          subject: Customer.io Weekly Report - ${{ github.run_number }}
+          to: ${{ secrets.REPORT_EMAIL_TO }}
+          from: GitHub Actions <noreply@github.com>
+          body: |
+            Customer.io Weekly Report
+            
+            See attached report files.
+          attachments: report.json, report.txt, formatted_report.txt
+      
+      - name: Create GitHub Issue (Alternative if email fails)
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            try {
+              const report = fs.readFileSync('formatted_report.txt', 'utf8');
+              github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `Customer.io Weekly Report - ${new Date().toLocaleDateString()}`,
+                body: `\`\`\`\n${report}\n\`\`\``,
+                labels: ['report', 'automated']
+              });
+            } catch (error) {
+              console.log('Could not create issue:', error);
+            }
+

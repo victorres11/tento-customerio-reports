@@ -1,0 +1,40 @@
+I'm trying to create some api calls to customer.io to create a weekly reporting structure.
+
+I'd like your help taking a bunch of api calls and figuring out the most simple way to put out the output I want.
+
+
+Output:
+
+Week of {data} customer.io reporting
+Campaign 1 Name
+Email 1 Name - 25 sent
+Email 2 Name - 15 sent
+SMS 1 Name - 15 sent
+
+Campaign 2 Name
+Email 1 Name - 10 sent
+SMS 1 Name - 4 sent
+
+
+There are a lot of campaigns that exist but have no email or send data, i want those grouped separately in the report like this:
+
+Campaigns with no data:
+Campaign 1 name
+campaign 2 name
+
+
+Here's a curl command that works with a valid API key you should use:
+curl -X GET "https://api.customer.io/v1/campaigns/7/actions" \
+  -H "Authorization: Bearer 194f1b1797e06160d1e1c42fa8ee4da3" \
+  -H "Content-Type: application/json"
+
+  Here's some API calls I'm familiar with:
+  https://api.customer.io/v1/campaigns
+  https://api.customer.io/v1/campaigns/{{ $json.id }}/actions
+  https://api.customer.io/v1/campaigns/{{ $json.campaign_id }}/actions/{{ $json.id }}/metrics?period=weeks&steps=1&type=email,sms
+
+
+
+  I'd like you to explore this api and figure out the sequencing I need to get the report that I want in I mentioned in Output for a clean report, that cleans up all the superfluous data I don't care about. The goal is basically to track campaigns/individual emails to make sure things work as expected per week.
+
+  

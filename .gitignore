@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Reports (optional - uncomment if you don't want to track generated reports)
+# report.json
+# report.txt
+# formatted_report.txt
+
+# Secrets (never commit these!)
+.env
+*.key
+secrets.txt
+

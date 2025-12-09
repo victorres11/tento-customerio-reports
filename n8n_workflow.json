@@ -1,0 +1,124 @@
+{
+  "name": "Customer.io Weekly Report",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * 1"
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "command": "source {{ $env.VENV_PATH }}/bin/activate && python {{ $env.SCRIPT_PATH }}/weekly_report.py",
+        "options": {}
+      },
+      "id": "execute-script",
+      "name": "Execute Python Script",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 300],
+      "notes": "Runs the weekly_report.py script. Make sure to set VENV_PATH and SCRIPT_PATH environment variables in n8n settings."
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract the report output from the command execution\nconst executionOutput = $input.item.json.stdout || $input.item.json.output || '';\n\n// Format for email/Slack\nconst reportText = executionOutput;\n\nreturn {\n  json: {\n    report: reportText,\n    timestamp: new Date().toISOString(),\n    subject: `Customer.io Weekly Report - ${new Date().toLocaleDateString()}`\n  }\n};"
+      },
+      "id": "format-output",
+      "name": "Format Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "{{ $env.REPORT_FROM_EMAIL || 'reports@yourcompany.com' }}",
+        "toEmail": "{{ $env.REPORT_EMAIL_TO }}",
+        "subject": "={{ $json.subject }}",
+        "emailType": "text",
+        "message": "={{ $json.report }}",
+        "options": {}
+      },
+      "id": "send-email",
+      "name": "Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [850, 300],
+      "notes": "Sends the report via email. Configure SMTP settings in n8n credentials."
+    },
+    {
+      "parameters": {
+        "channel": "{{ $env.SLACK_CHANNEL || '#reports' }}",
+        "text": "```\n{{ $json.report }}\n```",
+        "options": {}
+      },
+      "id": "send-slack",
+      "name": "Send to Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [850, 450],
+      "notes": "Optional: Send report to Slack channel. Configure Slack credentials in n8n.",
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Execute Python Script",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Python Script": {
+      "main": [
+        [
+          {
+            "node": "Format Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Report": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send to Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2025-12-09T00:00:00.000Z",
+  "versionId": "1"
+}
+
