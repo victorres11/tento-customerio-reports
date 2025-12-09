@@ -99,26 +99,24 @@ jobs:
                       
                       # Email details
                       if emails:
-                          email_text = "\n".join([f"  • 📧 {e['name']}: *{e['sent']}* sent" for e in emails])
+                          email_text = "\n".join([f"• 📧 {e['name']}: *{e['sent']}* sent" for e in emails])
                           blocks.append({
                               "type": "section",
                               "text": {
                                   "type": "mrkdwn",
                                   "text": email_text
-                              },
-                              "indent": 1
+                              }
                           })
                       
                       # SMS details
                       if sms:
-                          sms_text = "\n".join([f"  • 💬 {s['name']}: *{s['sent']}* sent" for s in sms])
+                          sms_text = "\n".join([f"• 💬 {s['name']}: *{s['sent']}* sent" for s in sms])
                           blocks.append({
                               "type": "section",
                               "text": {
                                   "type": "mrkdwn",
                                   "text": sms_text
-                              },
-                              "indent": 1
+                              }
                           })
                       
                       blocks.append({"type": "divider"})
@@ -196,13 +194,27 @@ jobs:
         run: |
           # Try to send formatted blocks, fallback to text if that fails
           if [ -f slack_payload.json ]; then
-            curl -X POST -H 'Content-type: application/json' \
+            RESPONSE=$(curl -s -w "\n%{http_code}" -X POST -H 'Content-type: application/json' \
               --data @slack_payload.json \
-              ${{ secrets.SLACK_WEBHOOK_URL }}
+              ${{ secrets.SLACK_WEBHOOK_URL }})
+            HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+            BODY=$(echo "$RESPONSE" | sed '$d')
+            
+            if [ "$HTTP_CODE" != "200" ]; then
+              echo "Slack API error (HTTP $HTTP_CODE): $BODY"
+              echo "Falling back to text format..."
+              # Fallback to simple text message
+              REPORT=$(cat formatted_report.txt)
+              curl -X POST -H 'Content-type: application/json' \
+                --data "{\"text\":\"📊 *Customer.io Weekly Report*\n\`\`\`\n$REPORT\n\`\`\`\"}" \
+                ${{ secrets.SLACK_WEBHOOK_URL }}
+            else
+              echo "Successfully sent formatted report to Slack"
+            fi
           else
             # Fallback to simple text message
+            echo "slack_payload.json not found, using text format"
             REPORT=$(cat formatted_report.txt)
-            REPORT_JSON=$(echo "$REPORT" | python3 -c "import sys, json; print(json.dumps(sys.stdin.read()))")
             curl -X POST -H 'Content-type: application/json' \
               --data "{\"text\":\"📊 *Customer.io Weekly Report*\n\`\`\`\n$REPORT\n\`\`\`\"}" \
               ${{ secrets.SLACK_WEBHOOK_URL }}
