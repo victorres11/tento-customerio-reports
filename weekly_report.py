@@ -109,10 +109,19 @@ def generate_weekly_report(output_format='text'):
     for campaign in campaigns:
         campaign_id = campaign.get("id")
         campaign_name = campaign.get("name", "Unnamed Campaign")
-        
+        # Check both 'state' and 'status' fields (API might use either)
+        campaign_state = campaign.get("state") or campaign.get("status") or "unknown"
+
+        # Skip non-running campaigns (draft, archived, stopped, etc.)
+        # Accept both "running" and "active" as valid running states
+        if campaign_state.lower() not in ["running", "active"]:
+            if output_format == 'text':
+                print(f"  Skipping {campaign_state} campaign: {campaign_name}")
+            continue
+
         if output_format == 'text':
             print(f"  Processing campaign: {campaign_name} (ID: {campaign_id})")
-        
+
         try:
             actions = get_campaign_actions(campaign_id)
         except Exception as e:
