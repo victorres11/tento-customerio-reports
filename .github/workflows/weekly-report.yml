@@ -260,22 +260,89 @@ jobs:
             echo "No changes to history file"
           fi
 
-      - name: Create GitHub Issue (Fallback if Slack fails)
+      - name: Send Slack Failure Notification
+        if: failure()
+        run: |
+          FAILURE_MESSAGE=$(cat <<'EOF'
+          {
+            "blocks": [
+              {
+                "type": "header",
+                "text": {
+                  "type": "plain_text",
+                  "text": "🚨 Customer.io Weekly Report Failed"
+                }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "*The weekly report workflow encountered an error*\n\n*Time:* $(date -u '+%Y-%m-%d %H:%M:%S UTC')\n*Repository:* ${{ github.repository }}\n*Run:* <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View workflow run>"
+                }
+              },
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": ":point_right: Check the workflow logs for details and fix any issues."
+                }
+              }
+            ]
+          }
+          EOF
+          )
+
+          curl -X POST -H 'Content-type: application/json' \
+            --data "$FAILURE_MESSAGE" \
+            ${{ secrets.SLACK_WEBHOOK_URL }} || echo "Failed to send Slack notification"
+
+      - name: Create GitHub Issue on Failure
         if: failure()
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
+            let reportContent = 'Report file not available';
+
             try {
-              const report = fs.readFileSync('formatted_report.txt', 'utf8');
-              github.rest.issues.create({
+              if (fs.existsSync('formatted_report.txt')) {
+                reportContent = fs.readFileSync('formatted_report.txt', 'utf8');
+              } else if (fs.existsSync('report.txt')) {
+                reportContent = fs.readFileSync('report.txt', 'utf8');
+              }
+            } catch (error) {
+              console.log('Could not read report file:', error);
+            }
+
+            const issueBody = `## Workflow Failure
+
+            The Customer.io weekly report workflow failed.
+
+            **Time:** ${new Date().toISOString()}
+            **Workflow Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            ### Report Output (if available)
+            \`\`\`
+            ${reportContent}
+            \`\`\`
+
+            ### Next Steps
+            1. Check the [workflow logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for error details
+            2. Verify the Customer.io API key is valid
+            3. Check if the Customer.io API is experiencing issues
+            4. Re-run the workflow manually once issues are resolved
+            `;
+
+            try {
+              await github.rest.issues.create({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                title: `Customer.io Weekly Report - ${new Date().toLocaleDateString()}`,
-                body: `\`\`\`\n${report}\n\`\`\``,
-                labels: ['report', 'automated']
+                title: `🚨 Customer.io Weekly Report Failed - ${new Date().toLocaleDateString()}`,
+                body: issueBody,
+                labels: ['bug', 'automated', 'workflow-failure']
               });
+              console.log('GitHub issue created successfully');
             } catch (error) {
               console.log('Could not create issue:', error);
             }
