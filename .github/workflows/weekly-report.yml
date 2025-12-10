@@ -11,7 +11,10 @@ on:
 jobs:
   generate-report:
     runs-on: ubuntu-latest
-    
+    permissions:
+      contents: write      # For pushing report history updates
+      issues: write        # For creating issues on failure
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
