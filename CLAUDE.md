@@ -33,9 +33,18 @@ The workflow can be manually triggered from the GitHub Actions UI, which is usef
    - `get_campaign_actions(campaign_id)`: Fetches all actions for a campaign using `limit=1000` parameter to avoid pagination
    - `get_action_metrics(campaign_id, action_id, action_type)`: Fetches weekly metrics for email/SMS actions only
    - `generate_weekly_report(output_format)`: Orchestrates the report generation
+   - `load_historical_data()`: Loads previous weeks' data from JSON file
+   - `save_historical_data()`: Saves current week's data for future comparisons
+   - `calculate_trend()`: Calculates percentage change and trend indicators (↑↓→)
    - Supports both `text` (human-readable) and `json` (structured) output formats
 
-2. **.github/workflows/weekly-report.yml** - GitHub Actions workflow
+2. **report_history.json** - Historical data storage
+   - Automatically created and updated each time the report runs
+   - Stores last 8 weeks of data to prevent file growth
+   - Used for week-over-week trend comparisons
+   - Committed to repository by GitHub Actions after each run
+
+3. **.github/workflows/weekly-report.yml** - GitHub Actions workflow
    - Runs on schedule (Wednesday 9:15 AM UTC) and manual trigger
    - Executes Python script twice: once for JSON output, once for text
    - Formats report using Slack Block Kit format with rich formatting
@@ -57,6 +66,7 @@ The workflow can be manually triggered from the GitHub Actions UI, which is usef
 - **Action deduplication**: Campaign actions are deduplicated by action ID to prevent duplicate entries in reports
 - **Only email/SMS tracking**: Filters for action types "email" and "twilio" (SMS) - other action types are ignored
 - **Weekly metrics**: Uses `period=weeks` and `steps=1` to get the most recent week's data
+- **Week-over-week comparison**: Stores historical data in `report_history.json` to show trends with indicators (↑ increase >5%, ↓ decrease >5%, → stable ±5%)
 - **Robust error handling**: Multiple fallback mechanisms ensure reports are delivered even if parts fail
 
 ## Customer.io API Integration
