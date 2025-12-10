@@ -2,9 +2,10 @@ name: Customer.io Weekly Report
 
 on:
   schedule:
-    # Runs every Wednesday at 9:15 AM UTC
+    # Runs every Wednesday at 8:00 AM EST (1:00 PM UTC)
+    # Note: During EDT (summer), this runs at 9:00 AM
     # Format: minute hour day month day-of-week (0=Sunday, 1=Monday, 2=Tuesday, 3=Wednesday)
-    - cron: '15 9 * * 3'
+    - cron: '0 13 * * 3'
   workflow_dispatch:  # Allows manual trigger from GitHub UI
 
 jobs:
