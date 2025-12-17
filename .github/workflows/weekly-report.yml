@@ -127,9 +127,18 @@ jobs:
                           }
                       })
                       
+                      # Helper function to format trend
+                      def format_trend(item):
+                          trend_str = ""
+                          if "trend_indicator" in item:
+                              trend_str = f" {item['trend_indicator']}"
+                              if item.get('trend_pct', 0) != 0:
+                                  trend_str += f" {item['trend_pct']:+.1f}%"
+                          return trend_str
+
                       # Email details
                       if emails:
-                          email_text = "\n".join([f"• 📧 {e['name']}: *{e['sent']}* sent" for e in emails])
+                          email_text = "\n".join([f"• 📧 {e['name']}: *{e['sent']}* sent{format_trend(e)}" for e in emails])
                           blocks.append({
                               "type": "section",
                               "text": {
@@ -137,10 +146,10 @@ jobs:
                                   "text": email_text
                               }
                           })
-                      
+
                       # SMS details
                       if sms:
-                          sms_text = "\n".join([f"• 💬 {s['name']}: *{s['sent']}* sent" for s in sms])
+                          sms_text = "\n".join([f"• 💬 {s['name']}: *{s['sent']}* sent{format_trend(s)}" for s in sms])
                           blocks.append({
                               "type": "section",
                               "text": {
@@ -198,9 +207,11 @@ jobs:
               for campaign in sorted(campaigns_with_data.keys()):
                   report_text += f"{campaign}\n"
                   for email in campaigns_with_data[campaign]['emails']:
-                      report_text += f"Email {email['name']} - {email['sent']} sent\n"
+                      trend_str = format_trend(email)
+                      report_text += f"Email {email['name']} - {email['sent']} sent{trend_str}\n"
                   for sms in campaigns_with_data[campaign]['sms']:
-                      report_text += f"SMS {sms['name']} - {sms['sent']} sent\n"
+                      trend_str = format_trend(sms)
+                      report_text += f"SMS {sms['name']} - {sms['sent']} sent{trend_str}\n"
                   report_text += "\n"
               if campaigns_without_data:
                   report_text += "Campaigns with no data:\n"
