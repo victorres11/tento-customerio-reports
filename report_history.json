@@ -665,5 +665,160 @@
         }
       ]
     }
+  },
+  "2025-12-17": {
+    "Apply Started Campaign Batch": {
+      "emails": [
+        {
+          "name": "Tento General - D1",
+          "sent": 2,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        },
+        {
+          "name": "Tento General - D2",
+          "sent": 1,
+          "trend_pct": -75.0,
+          "trend_indicator": "\u2193"
+        },
+        {
+          "name": "Tento General - D3",
+          "sent": 2,
+          "trend_pct": -60.0,
+          "trend_indicator": "\u2193"
+        },
+        {
+          "name": "Tento General - D3",
+          "sent": 1,
+          "trend_pct": -80.0,
+          "trend_indicator": "\u2193"
+        }
+      ],
+      "sms": [
+        {
+          "name": "Reminder - D1",
+          "sent": 1,
+          "trend_pct": -50.0,
+          "trend_indicator": "\u2193"
+        },
+        {
+          "name": "Reminder - D2",
+          "sent": 1,
+          "trend_pct": -75.0,
+          "trend_indicator": "\u2193"
+        },
+        {
+          "name": "SMS - D3",
+          "sent": 1,
+          "trend_pct": -75.0,
+          "trend_indicator": "\u2193"
+        },
+        {
+          "name": "SMS - D4",
+          "sent": 1,
+          "trend_pct": -75.0,
+          "trend_indicator": "\u2193"
+        },
+        {
+          "name": "SMS - D6",
+          "sent": 1,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        },
+        {
+          "name": "SMS - D14",
+          "sent": 1,
+          "trend_pct": -75.0,
+          "trend_indicator": "\u2193"
+        }
+      ]
+    },
+    "WooCommerce - Apply Started": {
+      "emails": [
+        {
+          "name": "Day 2 - 7am",
+          "sent": 1,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        },
+        {
+          "name": "Day 2 - 5pm",
+          "sent": 1,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        },
+        {
+          "name": "Day 2 - 5pm",
+          "sent": 1,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        },
+        {
+          "name": "Day 3 - 9am",
+          "sent": 1,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        }
+      ],
+      "sms": [
+        {
+          "name": "SMS - Day 2 7am",
+          "sent": 1,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        },
+        {
+          "name": "SMS - Day 2 5pm",
+          "sent": 1,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        },
+        {
+          "name": "SMS - Day 2 5pm",
+          "sent": 1,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        },
+        {
+          "name": "SMS - Day 3 9am",
+          "sent": 1,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        }
+      ]
+    },
+    "Awaiting Statements": {
+      "emails": [
+        {
+          "name": "Day 2 12pm",
+          "sent": 1
+        }
+      ],
+      "sms": []
+    },
+    "Birthday Campaign": {
+      "emails": [
+        {
+          "name": "Bday Email",
+          "sent": 58,
+          "trend_pct": -13.432835820895523,
+          "trend_indicator": "\u2193"
+        }
+      ],
+      "sms": []
+    },
+    "See Your Score - BCM Campaign - may 2025": {
+      "emails": [
+        {
+          "name": "No Score - Email 3",
+          "sent": 27
+        },
+        {
+          "name": "No Score - Email 4",
+          "sent": 178
+        }
+      ],
+      "sms": []
+    }
   }
 }
