@@ -1141,5 +1141,76 @@
       ],
       "sms": []
     }
+  },
+  "2026-01-07": {
+    "Apply Started Campaign Batch": {
+      "emails": [
+        {
+          "name": "Tento General - D1",
+          "sent": 4,
+          "trend_pct": 33.33333333333333,
+          "trend_indicator": "\u2191"
+        },
+        {
+          "name": "Tento General - D2",
+          "sent": 1,
+          "trend_pct": -80.0,
+          "trend_indicator": "\u2193"
+        },
+        {
+          "name": "Tento General - D3",
+          "sent": 2,
+          "trend_pct": -33.33333333333333,
+          "trend_indicator": "\u2193"
+        },
+        {
+          "name": "Tento General - D3",
+          "sent": 2,
+          "trend_pct": -33.33333333333333,
+          "trend_indicator": "\u2193"
+        }
+      ],
+      "sms": [
+        {
+          "name": "Reminder - D1",
+          "sent": 2,
+          "trend_pct": -33.33333333333333,
+          "trend_indicator": "\u2193"
+        },
+        {
+          "name": "Reminder - D2",
+          "sent": 1,
+          "trend_pct": -80.0,
+          "trend_indicator": "\u2193"
+        },
+        {
+          "name": "SMS - D3",
+          "sent": 2,
+          "trend_pct": -33.33333333333333,
+          "trend_indicator": "\u2193"
+        },
+        {
+          "name": "SMS - D4",
+          "sent": 2,
+          "trend_pct": -33.33333333333333,
+          "trend_indicator": "\u2193"
+        },
+        {
+          "name": "SMS - D14",
+          "sent": 1
+        }
+      ]
+    },
+    "Birthday Campaign": {
+      "emails": [
+        {
+          "name": "Bday Email",
+          "sent": 60,
+          "trend_pct": 11.11111111111111,
+          "trend_indicator": "\u2191"
+        }
+      ],
+      "sms": []
+    }
   }
 }
