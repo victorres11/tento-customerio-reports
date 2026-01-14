@@ -1212,5 +1212,96 @@
       ],
       "sms": []
     }
+  },
+  "2026-01-14": {
+    "Apply Started Campaign Batch": {
+      "emails": [
+        {
+          "name": "Tento General - D3",
+          "sent": 2,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        },
+        {
+          "name": "Tento General - D3",
+          "sent": 2,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        }
+      ],
+      "sms": [
+        {
+          "name": "SMS - D3",
+          "sent": 2,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        },
+        {
+          "name": "SMS - D4",
+          "sent": 2,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        },
+        {
+          "name": "SMS - D6",
+          "sent": 2
+        },
+        {
+          "name": "SMS - D14",
+          "sent": 2,
+          "trend_pct": 100.0,
+          "trend_indicator": "\u2191"
+        }
+      ]
+    },
+    "Birthday Campaign": {
+      "emails": [
+        {
+          "name": "Bday Email",
+          "sent": 67,
+          "trend_pct": 11.666666666666666,
+          "trend_indicator": "\u2191"
+        }
+      ],
+      "sms": []
+    },
+    "See Your Score - BCM Campaign - may 2025": {
+      "emails": [
+        {
+          "name": "No Score Result",
+          "sent": 2
+        },
+        {
+          "name": "score up",
+          "sent": 607
+        },
+        {
+          "name": "score down",
+          "sent": 375
+        },
+        {
+          "name": "score same",
+          "sent": 152
+        },
+        {
+          "name": "score up (woo)",
+          "sent": 25
+        },
+        {
+          "name": "score down (woo)",
+          "sent": 16
+        },
+        {
+          "name": "same score (woo)",
+          "sent": 15
+        }
+      ],
+      "sms": [
+        {
+          "name": "SMS 1",
+          "sent": 84
+        }
+      ]
+    }
   }
 }
