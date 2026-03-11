@@ -1,95 +1,4 @@
 {
-  "2026-01-14": {
-    "Apply Started Campaign Batch": {
-      "emails": [
-        {
-          "name": "Tento General - D3",
-          "sent": 2,
-          "trend_pct": 0.0,
-          "trend_indicator": "\u2192"
-        },
-        {
-          "name": "Tento General - D3",
-          "sent": 2,
-          "trend_pct": 0.0,
-          "trend_indicator": "\u2192"
-        }
-      ],
-      "sms": [
-        {
-          "name": "SMS - D3",
-          "sent": 2,
-          "trend_pct": 0.0,
-          "trend_indicator": "\u2192"
-        },
-        {
-          "name": "SMS - D4",
-          "sent": 2,
-          "trend_pct": 0.0,
-          "trend_indicator": "\u2192"
-        },
-        {
-          "name": "SMS - D6",
-          "sent": 2
-        },
-        {
-          "name": "SMS - D14",
-          "sent": 2,
-          "trend_pct": 100.0,
-          "trend_indicator": "\u2191"
-        }
-      ]
-    },
-    "Birthday Campaign": {
-      "emails": [
-        {
-          "name": "Bday Email",
-          "sent": 67,
-          "trend_pct": 11.666666666666666,
-          "trend_indicator": "\u2191"
-        }
-      ],
-      "sms": []
-    },
-    "See Your Score - BCM Campaign - may 2025": {
-      "emails": [
-        {
-          "name": "No Score Result",
-          "sent": 2
-        },
-        {
-          "name": "score up",
-          "sent": 607
-        },
-        {
-          "name": "score down",
-          "sent": 375
-        },
-        {
-          "name": "score same",
-          "sent": 152
-        },
-        {
-          "name": "score up (woo)",
-          "sent": 25
-        },
-        {
-          "name": "score down (woo)",
-          "sent": 16
-        },
-        {
-          "name": "same score (woo)",
-          "sent": 15
-        }
-      ],
-      "sms": [
-        {
-          "name": "SMS 1",
-          "sent": 84
-        }
-      ]
-    }
-  },
   "2026-01-21": {
     "Apply Started Campaign Batch": {
       "emails": [],
@@ -784,6 +693,123 @@
         }
       ],
       "sms": []
+    }
+  },
+  "2026-03-11": {
+    "Apply Started Campaign Batch": {
+      "emails": [
+        {
+          "name": "Tento General - D1",
+          "sent": 4,
+          "trend_pct": 33.33333333333333,
+          "trend_indicator": "\u2191"
+        },
+        {
+          "name": "Tento General - D2",
+          "sent": 6,
+          "trend_pct": 500.0,
+          "trend_indicator": "\u2191"
+        },
+        {
+          "name": "Tento General - D3",
+          "sent": 4,
+          "trend_pct": 100.0,
+          "trend_indicator": "\u2191"
+        },
+        {
+          "name": "Tento General - D3",
+          "sent": 4,
+          "trend_pct": 100.0,
+          "trend_indicator": "\u2191"
+        }
+      ],
+      "sms": [
+        {
+          "name": "Reminder - D1",
+          "sent": 3
+        },
+        {
+          "name": "Reminder - D2",
+          "sent": 5,
+          "trend_pct": 400.0,
+          "trend_indicator": "\u2191"
+        },
+        {
+          "name": "SMS - D3",
+          "sent": 3,
+          "trend_pct": 50.0,
+          "trend_indicator": "\u2191"
+        },
+        {
+          "name": "SMS - D4",
+          "sent": 3,
+          "trend_pct": 50.0,
+          "trend_indicator": "\u2191"
+        },
+        {
+          "name": "SMS - D6",
+          "sent": 5
+        },
+        {
+          "name": "SMS - D14",
+          "sent": 1,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        }
+      ]
+    },
+    "Birthday Campaign": {
+      "emails": [
+        {
+          "name": "Bday Email",
+          "sent": 69,
+          "trend_pct": 7.8125,
+          "trend_indicator": "\u2191"
+        }
+      ],
+      "sms": []
+    },
+    "See Your Score - BCM Campaign - may 2025": {
+      "emails": [
+        {
+          "name": "Email 1 - Generic - 1st score",
+          "sent": 3
+        },
+        {
+          "name": "No Score Result",
+          "sent": 4
+        },
+        {
+          "name": "score up",
+          "sent": 552
+        },
+        {
+          "name": "score down",
+          "sent": 381
+        },
+        {
+          "name": "score same",
+          "sent": 190
+        },
+        {
+          "name": "score up (woo)",
+          "sent": 27
+        },
+        {
+          "name": "score down (woo)",
+          "sent": 13
+        },
+        {
+          "name": "same score (woo)",
+          "sent": 14
+        }
+      ],
+      "sms": [
+        {
+          "name": "SMS 1",
+          "sent": 84
+        }
+      ]
     }
   }
 }
