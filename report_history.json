@@ -1,125 +1,4 @@
 {
-  "2026-05-06": {
-    "Apply Started Campaign Batch": {
-      "emails": [
-        {
-          "name": "Tento General - D1",
-          "sent": 4,
-          "trend_pct": 100.0,
-          "trend_indicator": "\u2191"
-        },
-        {
-          "name": "Tento General - D2",
-          "sent": 4,
-          "trend_pct": 300.0,
-          "trend_indicator": "\u2191"
-        },
-        {
-          "name": "Tento General - D3",
-          "sent": 3,
-          "trend_pct": 200.0,
-          "trend_indicator": "\u2191"
-        },
-        {
-          "name": "Tento General - D3",
-          "sent": 1,
-          "trend_pct": 0.0,
-          "trend_indicator": "\u2192"
-        }
-      ],
-      "sms": [
-        {
-          "name": "Reminder - D1",
-          "sent": 3,
-          "trend_pct": 200.0,
-          "trend_indicator": "\u2191"
-        },
-        {
-          "name": "Reminder - D2",
-          "sent": 4,
-          "trend_pct": 300.0,
-          "trend_indicator": "\u2191"
-        },
-        {
-          "name": "SMS - D3",
-          "sent": 1
-        },
-        {
-          "name": "SMS - D4",
-          "sent": 1
-        },
-        {
-          "name": "SMS - D6",
-          "sent": 1
-        }
-      ]
-    },
-    "WooCommerce - Apply Started": {
-      "emails": [
-        {
-          "name": "Day 1 - 12pm",
-          "sent": 1
-        },
-        {
-          "name": "Day 2 - 7am",
-          "sent": 1
-        },
-        {
-          "name": "Day 1 - 4pm",
-          "sent": 1
-        },
-        {
-          "name": "Day 2 - 5pm",
-          "sent": 1
-        },
-        {
-          "name": "Day 2 - 5pm",
-          "sent": 1
-        },
-        {
-          "name": "Day 3 - 9am",
-          "sent": 1
-        }
-      ],
-      "sms": [
-        {
-          "name": "SMS - Day 1 12pm",
-          "sent": 1
-        },
-        {
-          "name": "SMS - Day 2 7am",
-          "sent": 1
-        },
-        {
-          "name": "SMS - Day 1 4pm",
-          "sent": 1
-        },
-        {
-          "name": "SMS - Day 2 5pm",
-          "sent": 1
-        },
-        {
-          "name": "SMS - Day 2 5pm",
-          "sent": 1
-        },
-        {
-          "name": "SMS - Day 3 9am",
-          "sent": 1
-        }
-      ]
-    },
-    "Birthday Campaign": {
-      "emails": [
-        {
-          "name": "Bday Email",
-          "sent": 78,
-          "trend_pct": 25.806451612903224,
-          "trend_indicator": "\u2191"
-        }
-      ],
-      "sms": []
-    }
-  },
   "2026-05-13": {
     "Apply Started Campaign Batch": {
       "emails": [
@@ -546,6 +425,19 @@
           "sent": 1,
           "trend_pct": -50.0,
           "trend_indicator": "\u2193"
+        }
+      ],
+      "sms": []
+    }
+  },
+  "2026-07-01": {
+    "Birthday Campaign": {
+      "emails": [
+        {
+          "name": "Bday Email",
+          "sent": 63,
+          "trend_pct": 1.6129032258064515,
+          "trend_indicator": "\u2192"
         }
       ],
       "sms": []
