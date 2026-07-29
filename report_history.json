@@ -1,63 +1,4 @@
 {
-  "2026-06-03": {
-    "Apply Started Campaign Batch": {
-      "emails": [
-        {
-          "name": "Tento General - D1",
-          "sent": 3,
-          "trend_pct": -25.0,
-          "trend_indicator": "\u2193"
-        },
-        {
-          "name": "Tento General - D3",
-          "sent": 1,
-          "trend_pct": -66.66666666666666,
-          "trend_indicator": "\u2193"
-        },
-        {
-          "name": "Tento General - D3",
-          "sent": 1,
-          "trend_pct": -66.66666666666666,
-          "trend_indicator": "\u2193"
-        }
-      ],
-      "sms": [
-        {
-          "name": "Reminder - D1",
-          "sent": 1,
-          "trend_pct": -50.0,
-          "trend_indicator": "\u2193"
-        },
-        {
-          "name": "SMS - D3",
-          "sent": 1,
-          "trend_pct": -66.66666666666666,
-          "trend_indicator": "\u2193"
-        },
-        {
-          "name": "SMS - D4",
-          "sent": 1,
-          "trend_pct": -66.66666666666666,
-          "trend_indicator": "\u2193"
-        },
-        {
-          "name": "SMS - D6",
-          "sent": 2
-        }
-      ]
-    },
-    "Birthday Campaign": {
-      "emails": [
-        {
-          "name": "Bday Email",
-          "sent": 67,
-          "trend_pct": 13.559322033898304,
-          "trend_indicator": "\u2191"
-        }
-      ],
-      "sms": []
-    }
-  },
   "2026-06-10": {
     "Apply Started Campaign Batch": {
       "emails": [
@@ -257,6 +198,19 @@
         {
           "name": "Email 1",
           "sent": 1
+        }
+      ],
+      "sms": []
+    }
+  },
+  "2026-07-29": {
+    "Birthday Campaign": {
+      "emails": [
+        {
+          "name": "Bday Email",
+          "sent": 64,
+          "trend_pct": -13.513513513513514,
+          "trend_indicator": "\u2193"
         }
       ],
       "sms": []
