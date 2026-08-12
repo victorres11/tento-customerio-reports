@@ -1,26 +1,4 @@
 {
-  "2026-06-17": {
-    "Birthday Campaign": {
-      "emails": [
-        {
-          "name": "Bday Email",
-          "sent": 63,
-          "trend_pct": -17.105263157894736,
-          "trend_indicator": "\u2193"
-        }
-      ],
-      "sms": []
-    },
-    "VOLT - Admin Send Manual Personal Loan Recommendation": {
-      "emails": [
-        {
-          "name": "Email 1",
-          "sent": 2
-        }
-      ],
-      "sms": []
-    }
-  },
   "2026-06-24": {
     "Birthday Campaign": {
       "emails": [
@@ -127,6 +105,28 @@
           "sent": 68,
           "trend_pct": 6.25,
           "trend_indicator": "\u2191"
+        }
+      ],
+      "sms": []
+    }
+  },
+  "2026-08-12": {
+    "Birthday Campaign": {
+      "emails": [
+        {
+          "name": "Bday Email",
+          "sent": 77,
+          "trend_pct": 13.23529411764706,
+          "trend_indicator": "\u2191"
+        }
+      ],
+      "sms": []
+    },
+    "VOLT - Admin Send Manual Personal Loan Recommendation": {
+      "emails": [
+        {
+          "name": "Email 1",
+          "sent": 1
         }
       ],
       "sms": []
