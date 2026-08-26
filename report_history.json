@@ -1,17 +1,4 @@
 {
-  "2026-07-01": {
-    "Birthday Campaign": {
-      "emails": [
-        {
-          "name": "Bday Email",
-          "sent": 63,
-          "trend_pct": 1.6129032258064515,
-          "trend_indicator": "\u2192"
-        }
-      ],
-      "sms": []
-    }
-  },
   "2026-07-08": {
     "Birthday Campaign": {
       "emails": [
@@ -163,6 +150,30 @@
         {
           "name": "Email 1 \u2014 Since you applied",
           "sent": 3342
+        }
+      ],
+      "sms": []
+    }
+  },
+  "2026-08-26": {
+    "Birthday Campaign": {
+      "emails": [
+        {
+          "name": "Bday Email",
+          "sent": 72,
+          "trend_pct": -11.11111111111111,
+          "trend_indicator": "\u2193"
+        }
+      ],
+      "sms": []
+    },
+    "August 2026 Outreach \u2014 App In (not funded)": {
+      "emails": [
+        {
+          "name": "Email 1 \u2014 Since you applied",
+          "sent": 30,
+          "trend_pct": -99.10233393177738,
+          "trend_indicator": "\u2193"
         }
       ],
       "sms": []
