@@ -1,17 +1,4 @@
 {
-  "2026-07-29": {
-    "Birthday Campaign": {
-      "emails": [
-        {
-          "name": "Bday Email",
-          "sent": 64,
-          "trend_pct": -13.513513513513514,
-          "trend_indicator": "\u2193"
-        }
-      ],
-      "sms": []
-    }
-  },
   "2026-08-05": {
     "Birthday Campaign": {
       "emails": [
@@ -196,6 +183,28 @@
         {
           "name": "No Score - Email 4 (When will your score show up)",
           "sent": 89
+        }
+      ],
+      "sms": []
+    }
+  },
+  "2026-09-23": {
+    "Birthday Campaign": {
+      "emails": [
+        {
+          "name": "Bday Email",
+          "sent": 75,
+          "trend_pct": 25.0,
+          "trend_indicator": "\u2191"
+        }
+      ],
+      "sms": []
+    },
+    "No Score Sequence (bcm_score_status = no_score)": {
+      "emails": [
+        {
+          "name": "No Score - Email 5 (Strong credit opens doors)",
+          "sent": 87
         }
       ],
       "sms": []
