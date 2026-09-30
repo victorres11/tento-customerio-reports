@@ -1,17 +1,4 @@
 {
-  "2026-08-05": {
-    "Birthday Campaign": {
-      "emails": [
-        {
-          "name": "Bday Email",
-          "sent": 68,
-          "trend_pct": 6.25,
-          "trend_indicator": "\u2191"
-        }
-      ],
-      "sms": []
-    }
-  },
   "2026-08-12": {
     "Birthday Campaign": {
       "emails": [
@@ -205,6 +192,49 @@
         {
           "name": "No Score - Email 5 (Strong credit opens doors)",
           "sent": 87
+        }
+      ],
+      "sms": []
+    }
+  },
+  "2026-09-30": {
+    "Apply Started Campaign Batch": {
+      "emails": [
+        {
+          "name": "Tento General - D1",
+          "sent": 2
+        },
+        {
+          "name": "Tento General - D2",
+          "sent": 2
+        },
+        {
+          "name": "Tento General - D3",
+          "sent": 1
+        },
+        {
+          "name": "Tento General - D3",
+          "sent": 1
+        }
+      ],
+      "sms": []
+    },
+    "Birthday Campaign": {
+      "emails": [
+        {
+          "name": "Bday Email",
+          "sent": 67,
+          "trend_pct": -10.666666666666668,
+          "trend_indicator": "\u2193"
+        }
+      ],
+      "sms": []
+    },
+    "BCS \u00b7 declined \u00b7 personal-loan-followup \u00b7 2026-09": {
+      "emails": [
+        {
+          "name": "Explore other loan options (personal loan)",
+          "sent": 1
         }
       ],
       "sms": []
