@@ -1,26 +1,4 @@
 {
-  "2026-08-12": {
-    "Birthday Campaign": {
-      "emails": [
-        {
-          "name": "Bday Email",
-          "sent": 77,
-          "trend_pct": 13.23529411764706,
-          "trend_indicator": "\u2191"
-        }
-      ],
-      "sms": []
-    },
-    "VOLT - Admin Send Manual Personal Loan Recommendation": {
-      "emails": [
-        {
-          "name": "Email 1",
-          "sent": 1
-        }
-      ],
-      "sms": []
-    }
-  },
   "2026-08-19": {
     "Birthday Campaign": {
       "emails": [
@@ -235,6 +213,28 @@
         {
           "name": "Explore other loan options (personal loan)",
           "sent": 1
+        }
+      ],
+      "sms": []
+    }
+  },
+  "2026-10-07": {
+    "Birthday Campaign": {
+      "emails": [
+        {
+          "name": "Bday Email",
+          "sent": 67,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        }
+      ],
+      "sms": []
+    },
+    "No Score Sequence (bcm_score_status = no_score)": {
+      "emails": [
+        {
+          "name": "No Score - Email 1 (No Score Result)",
+          "sent": 826
         }
       ],
       "sms": []
