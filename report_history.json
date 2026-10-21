@@ -1,28 +1,4 @@
 {
-  "2026-08-26": {
-    "Birthday Campaign": {
-      "emails": [
-        {
-          "name": "Bday Email",
-          "sent": 72,
-          "trend_pct": -11.11111111111111,
-          "trend_indicator": "\u2193"
-        }
-      ],
-      "sms": []
-    },
-    "August 2026 Outreach \u2014 App In (not funded)": {
-      "emails": [
-        {
-          "name": "Email 1 \u2014 Since you applied",
-          "sent": 30,
-          "trend_pct": -99.10233393177738,
-          "trend_indicator": "\u2193"
-        }
-      ],
-      "sms": []
-    }
-  },
   "2026-09-02": {
     "Birthday Campaign": {
       "emails": [
@@ -214,6 +190,75 @@
         {
           "name": "No Score - Email 3 (3 ways to kickstart)",
           "sent": 269
+        }
+      ],
+      "sms": []
+    }
+  },
+  "2026-10-21": {
+    "Apply Started Campaign Batch": {
+      "emails": [
+        {
+          "name": "Tento General - D1",
+          "sent": 2,
+          "trend_pct": -33.33333333333333,
+          "trend_indicator": "\u2193"
+        },
+        {
+          "name": "Tento General - D2",
+          "sent": 5,
+          "trend_pct": 66.66666666666666,
+          "trend_indicator": "\u2191"
+        },
+        {
+          "name": "Tento General - D3",
+          "sent": 4,
+          "trend_pct": 100.0,
+          "trend_indicator": "\u2191"
+        },
+        {
+          "name": "Tento General - D3",
+          "sent": 2,
+          "trend_pct": 0.0,
+          "trend_indicator": "\u2192"
+        }
+      ],
+      "sms": []
+    },
+    "Birthday Campaign": {
+      "emails": [
+        {
+          "name": "Bday Email",
+          "sent": 87,
+          "trend_pct": -15.53398058252427,
+          "trend_indicator": "\u2193"
+        }
+      ],
+      "sms": []
+    },
+    "No Score Sequence (bcm_score_status = no_score)": {
+      "emails": [
+        {
+          "name": "No Score - Email 4 (When will your score show up)",
+          "sent": 268
+        }
+      ],
+      "sms": []
+    },
+    "October 2026 Outreach \u2014 Vendors (Section 179)": {
+      "emails": [
+        {
+          "name": "Email 1 \u2014 Section 179",
+          "sent": 2174
+        }
+      ],
+      "sms": []
+    },
+    "October 2026 Outreach \u2014 Funded (Key Customers)": {
+      "emails": [
+        {
+          "name": "Email 1 \u2014 Section 179",
+          "sent": 966
         }
       ],
       "sms": []
